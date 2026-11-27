@@ -1,32 +1,73 @@
 package com.example.activitylifecycle
+
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 
-import android.util.Log
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-object LifecycleHistory{val events=mutableStateListOf<String>()}
-class MainActivity:ComponentActivity(){
- private fun record(name:String){Log.d("ActivityLifecycle",name);LifecycleHistory.events.add("${SimpleDateFormat("HH:mm:ss.SSS",Locale.ROOT).format(Date())}  $name")}
- override fun onCreate(savedInstanceState:Bundle?){super.onCreate(savedInstanceState);record("onCreate");enableEdgeToEdge();setContent{MaterialTheme{Surface(Modifier.fillMaxSize()){Column(Modifier.safeDrawingPadding().padding(24.dp).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(12.dp)){Text("Жизненный цикл Activity",style=MaterialTheme.typography.headlineMedium);Text("Сверните приложение, вернитесь и поверните экран. Ниже показаны реальные вызовы методов.");HorizontalDivider();LifecycleHistory.events.forEach{Text(it,style=MaterialTheme.typography.bodyLarge)}}}}}}
- override fun onStart(){super.onStart();record("onStart")}
- override fun onResume(){super.onResume();record("onResume")}
- override fun onPause(){record("onPause");super.onPause()}
- override fun onStop(){record("onStop");super.onStop()}
- override fun onRestart(){super.onRestart();record("onRestart")}
- override fun onDestroy(){record("onDestroy");super.onDestroy()}
+class MainActivity : ComponentActivity() {
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    Log.d(TAG, "onCreate")
+    setContent {
+      MaterialTheme {
+        Surface(modifier = Modifier.fillMaxSize()) {
+          Column(
+            modifier = Modifier.safeDrawingPadding().padding(24.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+          ) {
+            Text(stringResource(R.string.app_name), style = MaterialTheme.typography.headlineMedium)
+            Text(stringResource(R.string.instructions), modifier = Modifier.padding(top = 16.dp))
+          }
+        }
+      }
+    }
+  }
+
+  override fun onStart() {
+    super.onStart()
+    Log.d(TAG, "onStart")
+  }
+
+  override fun onResume() {
+    super.onResume()
+    Log.d(TAG, "onResume")
+  }
+
+  override fun onPause() {
+    super.onPause()
+    Log.d(TAG, "onPause")
+  }
+
+  override fun onStop() {
+    super.onStop()
+    Log.d(TAG, "onStop")
+  }
+
+  override fun onRestart() {
+    super.onRestart()
+    Log.d(TAG, "onRestart")
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    Log.d(TAG, "onDestroy")
+  }
+
+  companion object {
+    private const val TAG = "ActivityLifecycle"
+  }
 }
